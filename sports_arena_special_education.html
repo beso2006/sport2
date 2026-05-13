@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 الملعب التعليمي - التربية الرياضية لذوي الاحتياجات الخاصة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2d8a3e;
+    --green-light: #4caf50;
+    --green-bright: #76c442;
+    --grass: #1a6b2a;
+    --yellow: #f9e000;
+    --yellow-warm: #ffc107;
+    --white: #ffffff;
+    --off-white: #f0f8f0;
+    --dark: #1a2e1a;
+    --shadow: rgba(0,0,0,0.2);
+    --gold: #ffd700;
+    --red: #e53935;
+    --blue: #1565c0;
+    --orange: #ef6c00;
+    --purple: #6a1b9a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    background: var(--grass);
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== GRASS BACKGROUND ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.04) 0px,
+        rgba(255,255,255,0.04) 40px,
+        transparent 40px,
+        transparent 80px
+      ),
+      linear-gradient(180deg, #1a6b2a 0%, #2d8a3e 50%, #1a6b2a 100%);
+    z-index: -2;
+  }
+
+  /* ===== HEADER ===== */
+  .arena-header {
+    background: linear-gradient(135deg, #0d3d18 0%, #1a6b2a 40%, #2d8a3e 100%);
+    border-bottom: 4px solid var(--yellow);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .arena-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(249,224,0,0.08) 0%, transparent 60%);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  .header-icons {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+    animation: bounce-icons 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce-icons {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .arena-title {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 900;
+    color: var(--yellow);
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    letter-spacing: 1px;
+  }
+
+  .arena-subtitle {
+    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+    color: rgba(255,255,255,0.9);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--dark);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: 900;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { background: var(--yellow); }
+    50% { background: var(--yellow-warm); }
+  }
+
+  /* ===== NAV TABS ===== */
+  .nav-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 16px 20px;
+    background: rgba(0,0,0,0.2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .nav-tab {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+    white-space: nowrap;
+    backdrop-filter: blur(5px);
+  }
+
+  .nav-tab:hover, .nav-tab.active {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--dark);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(249,224,0,0.4);
+  }
+
+  /* ===== SECTIONS ===== */
+  .section { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
+  .section.active { display: block; animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+    border-right: 5px solid var(--green-bright);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: jumpIn 0.5s ease backwards;
+  }
+
+  .card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.2);
+  }
+
+  @keyframes jumpIn {
+    0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+    70% { transform: translateY(-5px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .card:nth-child(1) { animation-delay: 0.1s; border-right-color: var(--green); }
+  .card:nth-child(2) { animation-delay: 0.2s; border-right-color: var(--yellow-warm); }
+  .card:nth-child(3) { animation-delay: 0.3s; border-right-color: var(--blue); }
+  .card:nth-child(4) { animation-delay: 0.4s; border-right-color: var(--orange); }
+  .card:nth-child(5) { animation-delay: 0.5s; border-right-color: var(--purple); }
+  .card:nth-child(6) { animation-delay: 0.6s; border-right-color: var(--red); }
+  .card:nth-child(7) { animation-delay: 0.7s; border-right-color: var(--green-bright); }
+  .card:nth-child(8) { animation-delay: 0.8s; border-right-color: #00838f; }
+
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title .icon {
+    font-size: 1.4rem;
+    background: var(--off-white);
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-body {
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: #333;
+  }
+
+  .card-body ul { padding-right: 20px; }
+  .card-body ul li { margin-bottom: 7px; }
+  .card-body strong { color: var(--green); }
+
+  /* ===== HIGHLIGHT BOX ===== */
+  .highlight-box {
+    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+    border: 2px solid var(--green-bright);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+  }
+
+  .highlight-box.yellow {
+    background: linear-gradient(135deg, #fffde7, #fff9c4);
+    border-color: var(--yellow-warm);
+  }
+
+  .highlight-box.blue {
+    background: linear-gradient(135deg, #e3f2fd, #e1f5fe);
+    border-color: var(--blue);
+  }
+
+  .highlight-box.orange {
+    background: linear-gradient(135deg, #fff3e0, #fbe9e7);
+    border-color: var(--orange);
+  }
+
+  /* ===== GRID ===== */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  @media (max-width: 700px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    text-align: center;
+    color: white;
+    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+    font-weight: 900;
+    margin-bottom: 22px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline { position: relative; padding-right: 30px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    right: 10px; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--green), var(--yellow-warm));
+    border-radius: 3px;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 14px;
+    padding: 14px 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  }
+
+  .timeline-item::before {
+    content: attr(data-year);
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--green);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 6px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+
+  .timeline-item::after {
+    content: '⚽';
+    position: absolute;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+  }
+
+  /* ===== BADGES ===== */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin: 2px;
+  }
+  .badge-green { background: #c8e6c9; color: #1b5e20; }
+  .badge-yellow { background: #fff9c4; color: #f57f17; }
+  .badge-blue { background: #bbdefb; color: #0d47a1; }
+  .badge-orange { background: #ffe0b2; color: #e65100; }
+  .badge-purple { background: #e1bee7; color: #4a148c; }
+  .badge-red { background: #ffcdd2; color: #b71c1c; }
+
+  /* ===== QUIZ SECTION ===== */
+  .quiz-container { }
+
+  .quiz-score-board {
+    background: linear-gradient(135deg, #0d3d18, #1a6b2a);
+    border: 3px solid var(--yellow);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 22px;
+    color: white;
+  }
+
+  .score-display {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--yellow);
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .score-item { display: flex; flex-direction: column; align-items: center; }
+  .score-label { font-size: 0.8rem; color: rgba(255,255,255,0.8); }
+
+  .quiz-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .quiz-tab-btn {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    transition: all 0.3s;
+  }
+
+  .quiz-tab-btn:hover, .quiz-tab-btn.active {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--dark);
+    transform: scale(1.05);
+  }
+
+  /* ===== TRUE/FALSE QUESTIONS ===== */
+  .tf-question {
+    background: white;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    transition: all 0.3s;
+  }
+
+  .tf-question .q-text {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a2e1a;
+    margin-bottom: 12px;
+    line-height: 1.7;
+  }
+
+  .tf-q-num {
+    display: inline-block;
+    background: var(--green);
+    color: white;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 26px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: 8px;
+  }
+
+  .tf-btns { display: flex; gap: 10px; }
+
+  .tf-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.25s;
+    background: white;
+  }
+
+  .tf-btn.true-btn { border-color: var(--green); color: var(--green); }
+  .tf-btn.false-btn { border-color: var(--red); color: var(--red); }
+  .tf-btn:hover { transform: scale(1.04); }
+  .tf-btn.correct { background: #e8f5e9; border-color: var(--green); box-shadow: 0 0 12px rgba(76,175,80,0.4); }
+  .tf-btn.wrong { background: #ffebee; border-color: var(--red); box-shadow: 0 0 12px rgba(229,57,53,0.4); }
+  .tf-btn:disabled { cursor: default; }
+
+  .answer-reveal {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: none;
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .answer-reveal.show { display: block; }
+  .answer-reveal.correct-ans { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .answer-reveal.wrong-ans { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+
+  /* ===== MCQ QUESTIONS ===== */
+  .mcq-question {
+    background: white;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+
+  .mcq-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  @media (max-width: 500px) { .mcq-options { grid-template-columns: 1fr; } }
+
+  .mcq-option {
+    padding: 10px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: #f8f9fa;
+    transition: all 0.25s;
+    text-align: right;
+    color: #333;
+  }
+
+  .mcq-option:hover { border-color: var(--green-light); background: #f1f8e9; transform: scale(1.02); }
+
+  .mcq-option.ball-hidden {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mcq-option.ball-hidden::after {
+    content: '⚽';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #2d8a3e, #4caf50);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.4s;
+    border-radius: 10px;
+  }
+
+  .mcq-option.revealed::after { opacity: 0; pointer-events: none; }
+  .mcq-option.correct-opt { background: #e8f5e9; border-color: var(--green); color: var(--green); }
+  .mcq-option.wrong-opt { background: #ffebee; border-color: var(--red); color: var(--red); }
+  .mcq-option:disabled { cursor: default; }
+
+  .ball-reveal-hint {
+    font-size: 0.78rem;
+    color: #777;
+    text-align: center;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  /* ===== FLIP CARDS ===== */
+  .flip-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+  }
+
+  .flip-card {
+    height: 200px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .flip-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-front, .flip-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+
+  .flip-front {
+    background: linear-gradient(135deg, #1a6b2a, #2d8a3e);
+    color: white;
+    border: 3px solid var(--yellow);
+  }
+
+  .flip-back {
+    background: white;
+    transform: rotateY(180deg);
+    border: 3px solid var(--green-bright);
+    color: #1a2e1a;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .flip-front-q {
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+
+  .flip-front-icon { font-size: 2rem; margin-bottom: 10px; }
+  .flip-front-hint { font-size: 0.75rem; color: rgba(255,255,255,0.7); margin-top: 8px; }
+
+  .flip-back-title {
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ===== TROPHY ANIMATION ===== */
+  .trophy-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    border-radius: 24px;
+    padding: 30px 40px;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+  }
+
+  .trophy-popup.show {
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: all;
+  }
+
+  .trophy-icon { font-size: 4rem; animation: spin 0.5s ease; }
+  @keyframes spin { from { transform: rotate(-20deg); } to { transform: rotate(0); } }
+  .trophy-text { font-size: 1.3rem; font-weight: 900; color: white; margin-top: 8px; }
+
+  /* ===== MINI CARD (info grid) ===== */
+  .mini-card {
+    background: white;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    border-top: 4px solid var(--green-bright);
+    transition: transform 0.25s;
+  }
+  .mini-card:hover { transform: translateY(-4px); }
+  .mini-card-icon { font-size: 1.8rem; margin-bottom: 6px; }
+  .mini-card-title { font-weight: 900; font-size: 0.9rem; color: var(--green); margin-bottom: 6px; }
+  .mini-card-body { font-size: 0.82rem; color: #444; line-height: 1.7; }
+
+  /* ===== OBJECTIVES LIST ===== */
+  .obj-list { list-style: none; }
+  .obj-list li {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #f1f8e9, #e8f5e9);
+    border-radius: 10px;
+    border-right: 3px solid var(--green-bright);
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .obj-list li::before { content: '🏅'; flex-shrink: 0; }
+
+  /* ===== ACTIVITIES GRID ===== */
+  .activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+  }
+
+  .activity-tag {
+    background: linear-gradient(135deg, var(--green), var(--green-bright));
+    color: white;
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+    cursor: default;
+  }
+  .activity-tag:hover { transform: scale(1.08) rotate(-2deg); }
+  .activity-tag .a-icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+
+  /* ===== QUIZ RESULTS ===== */
+  .result-bar {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    height: 14px;
+    overflow: hidden;
+    margin: 6px 0;
+  }
+  .result-fill {
+    height: 100%;
+    border-radius: 20px;
+    background: var(--yellow);
+    transition: width 0.8s ease;
+  }
+
+  /* ===== RESET BTN ===== */
+  .reset-btn {
+    background: var(--yellow);
+    color: var(--dark);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 900;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 14px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 14px rgba(249,224,0,0.4);
+  }
+  .reset-btn:hover { transform: scale(1.06); box-shadow: 0 6px 20px rgba(249,224,0,0.6); }
+
+  /* ===== KEY TERMS ===== */
+  .term-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .term-card {
+    background: white;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    border-bottom: 3px solid var(--yellow-warm);
+  }
+
+  .term-ar { font-weight: 900; font-size: 1rem; color: var(--green); }
+  .term-en { font-size: 0.78rem; color: #888; font-style: italic; margin: 4px 0; }
+  .term-def { font-size: 0.83rem; color: #444; line-height: 1.6; }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+  ::-webkit-scrollbar-thumb { background: var(--green-bright); border-radius: 3px; }
+
+  /* ===== FOOTER ===== */
+  .arena-footer {
+    text-align: center;
+    padding: 18px;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.8rem;
+    margin-top: 10px;
+  }
+
+  /* ===== ANIMATED SCORE ===== */
+  .score-anim {
+    animation: scorePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes scorePop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); color: var(--gold); }
+    100% { transform: scale(1); }
+  }
+
+  .medal-row { display: flex; justify-content: center; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+  .medal {
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    color: white;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  .divider {
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--green-bright), transparent);
+    margin: 14px 0;
+    border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="arena-header">
+  <div class="header-icons">🏆 ⚽ 🏃‍♂️ 🎯 🥇</div>
+  <h1 class="arena-title">🏟️ الملعب التعليمي للتربية الرياضية</h1>
+  <p class="arena-subtitle">التربية البدنية الخاصة وألعاب ذوي الاحتياجات الخاصة</p>
+  <div class="header-badge">📚 وحدة دراسية شاملة · 60 سؤال تحدي</div>
+</div>
+
+<!-- NAV -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showSection('history')">⏳ التطور التاريخي</button>
+  <button class="nav-tab" onclick="showSection('objectives')">🎯 الأهداف والأساسيات</button>
+  <button class="nav-tab" onclick="showSection('visual')">👁️ الإعاقة البصرية</button>
+  <button class="nav-tab" onclick="showSection('hearing')">👂 الإعاقة السمعية</button>
+  <button class="nav-tab" onclick="showSection('autism')">🧩 طيف التوحد</button>
+  <button class="nav-tab" onclick="showSection('terms')">📖 المصطلحات</button>
+  <button class="nav-tab" onclick="showSection('quiz')">⚽ المباراة النهائية</button>
+</div>
+
+<!-- ==================== SECTION 1: HISTORY ==================== -->
+<div id="section-history" class="section active">
+  <h2 class="section-title">⏳ التطور التاريخي لألعاب ذوي الاحتياجات الخاصة</h2>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🌱</span> البداية الأولى – Tissot وميلاد التربية المعدّلة</div>
+    <div class="card-body">
+      <p>يُعدّ الطبيب الفرنسي <strong>Tissot</strong> أول من اقترح الألعاب المعدّلة للأفراد ذوي الاحتياجات الخاصة، مركّزاً على دور التمرينات في علاج الأمراض. وكان له الفضل في ظهور ما سُمي لاحقاً بـ<strong>"التربية البدنية المعدّلة"</strong>.</p>
+      <div class="highlight-box yellow">
+        <strong>📅 التاريخ:</strong> عام 1871م – أول ظهور رسمي لمفهوم التربية البدنية المعدّلة
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🇸🇪</span> المعهد المركزي في ستوكهولم – Ling</div>
+    <div class="card-body">
+      <p>يرتبط ظهور التربية البدنية المعدّلة الحديثة بـ<strong>Per Henrik Ling</strong> الذي توصّل إلى برامج من التمرينات العلاجية لتأهيل حالات الجسم غير العادية، وقد تمّ ذلك في <strong>معهد التمرينات المركزي في ستوكهولم (Stockholm)</strong>.</p>
+      <div class="highlight-box">
+        <strong>📅 عام 1781م:</strong> تأسيس أول قسم للتربية البدنية التصحيحية في جامعة <strong>هارفارد Harvard</strong> بالولايات المتحدة الأمريكية، بهدف تصحيح الأخطاء القوامية وتحسين المستوى العام للحيوية
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">⚔️</span> أثر الحروب العالمية في تطوير التربية الحركية</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div class="highlight-box">
+          <strong>الحرب العالمية الأولى:</strong> ظهور برامج جديدة للتربية البدنية التصحيحية في الولايات المتحدة. كان <strong>Kessler</strong> رائداً في تطبيقها مع الرياضيين المهتمين بالتمرينات العلاجية
+        </div>
+        <div class="highlight-box yellow">
+          <strong>الحرب العالمية الثانية:</strong> استعانت قيادة الجيش الأمريكي بمعلمي التربية البدنية للتأهيل، وأُنشئت برامج وأُعدَّ أخصائيون في التأهيل من أفراد الجيش
+        </div>
+      </div>
+      <p style="margin-top:10px; font-size:0.88rem;">تضمّنت مؤهلات هؤلاء الأخصائيين: التأريح، علم الحركة، الاهتزازات الوظيفية، علم وظائف الأعضاء، وعلم النفس. وكان الهدف الأول مساعدة أفراد الجيش المصابين والعودة إلى الخدمة بأسرع وقت.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📜</span> القوانين والتشريعات الأمريكية المؤثرة</div>
+    <div class="card-body">
+      <div class="timeline">
+        <div class="timeline-item" data-year="1973">
+          <strong>قانون التأهيل 1973</strong> – Rehabilitation Act: أثّر تأثيراً كبيراً في تدعيم الخدمات المقدمة للفئة المعاقة وأكّد حقوقهم في الالتحاق بالمدارس الحكومية العامة والحصول على خدمات في مجال التربية البدنية
+        </div>
+        <div class="timeline-item" data-year="1975">
+          <strong>قانون 94-142 (1975)</strong>: أكّد حق الأفراد ذوي الاحتياجات الخاصة في التعليم المجاني لجميع مراحل التعليم من سن الثالثة حتى الثامنة عشرة، بما فيها المشاركة في التربية البدننية بنفس القدر المتاح للتلميذ العادي
+        </div>
+      </div>
+      <div class="highlight-box blue">
+        <strong>البرنامج الفردي (IEP):</strong> وجب أن يشمل البرنامج على الأنشطة الحركية ويكون مكتوباً معاً من: معلم التربية البدنية، معلم الفصل، الوالدين، أخصائي العلاج الوظيفي، واختصاصي علم النفس، والتوجيه والإرشاد، والعلاج الوظيفي
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🏅</span> الأولمبياد الخاصة Special Olympics</div>
+    <div class="card-body">
+      <p>دعا الرئيس الأمريكي <strong>جون كاندي</strong> وعائلته لبرامج التربية البدنية للمتخلفين عقلياً، مما أدى إلى إنشاء ما سُمّي <strong>"الأولمبياد الخاصة Special Olympics"</strong> عام <strong>1967م</strong>.</p>
+      <div class="highlight-box orange">
+        📌 وتزامن مع ذلك إنشاء مكتب التربية للمعوقين <strong>Bureau of Education for the Handicapped</strong> الذي دعم حركة تنامياً وأجرى الدراسات في مجال التربية البدنية
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 2: OBJECTIVES ==================== -->
+<div id="section-objectives" class="section">
+  <h2 class="section-title">🎯 أهداف التربية البدنية الخاصة</h2>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span> تعريف التربية البدنية الخاصة (المعدّلة)</div>
+    <div class="card-body">
+      <div class="highlight-box">
+        <strong>التعريف الرسمي:</strong> هي التربية البدنية الخاصة أو المعدّلة
+        <strong>Adapted Special Physical Education</strong>، التي اعتمدتها الجمعية الأمريكية للصحة والتربية البدنية والترفيه وأكاديميا الحركة
+        <strong>American Alliance of Health, Physical Education, Recreation and Dance</strong>
+      </div>
+      <p style="margin-top: 10px;">وهي برنامج متنوع من الأنشطة الرياضية والألعاب لتلبية احتياجات الفرد المعاق، مع التركيز على قدراته وليس إعاقته.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">💪</span> أولاً: تطوير اللياقة البدنية المرتبطة بالصحة</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div class="mini-card">
+          <div class="mini-card-icon">❤️</div>
+          <div class="mini-card-title">الجهاز القلبي الوعائي</div>
+          <div class="mini-card-body">تحسين كفاءة القلب والدورة الدموية لدى المعاقين</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🦵</div>
+          <div class="mini-card-title">المرونة</div>
+          <div class="mini-card-body">تطوير مدى الحركة في المفاصل والعضلات</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🏋️</div>
+          <div class="mini-card-title">قوة العضلات</div>
+          <div class="mini-card-body">بناء وتعزيز قوة العضلات وتحمّلها</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">⚖️</div>
+          <div class="mini-card-title">تركيب الجسم</div>
+          <div class="mini-card-body">الحفاظ على الوزن الصحي وتحسين نسبة الدهون</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🫁</div>
+          <div class="mini-card-title">تحمّل العضلات</div>
+          <div class="mini-card-body">القدرة على الاستمرار في الأداء لفترات أطول</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🦴</div>
+          <div class="mini-card-title">العظام والمفاصل</div>
+          <div class="mini-card-body">تقليل خطر الإصابات والأمراض المزمنة</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🤸</span> ثانياً: تطوير اللياقة البدنية المرتبطة بالمهارة الحركية</div>
+    <div class="card-body">
+      <div class="activities-grid">
+        <div class="activity-tag"><span class="a-icon">⚖️</span>التوازن</div>
+        <div class="activity-tag"><span class="a-icon">⚡</span>السرعة</div>
+        <div class="activity-tag"><span class="a-icon">🎯</span>التوافق الحركي</div>
+        <div class="activity-tag"><span class="a-icon">💨</span>رشاقة الحركة</div>
+        <div class="activity-tag"><span class="a-icon">⏱️</span>زمن الرد الفعل</div>
+        <div class="activity-tag"><span class="a-icon">💥</span>القوة الانفجارية</div>
+        <div class="activity-tag"><span class="a-icon">🔄</span>التوافق</div>
+        <div class="activity-tag"><span class="a-icon">🎮</span>الإيقاع الحركي</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">👩‍🏫</span> دور معلمة الروضة في ألعاب الفناء لذوي الاحتياجات</div>
+    <div class="card-body">
+      <ul class="obj-list">
+        <li>تصميم وتنفيذ برامج حركية تراعي الاحتياجات الفردية لكل طفل</li>
+        <li>توفير بيئة آمنة وداعمة تشجّع الطفل على المشاركة في الأنشطة الحركية</li>
+        <li>استخدام أساليب وأدوات متنوعة تناسب طبيعة كل إعاقة</li>
+        <li>التعاون مع المتخصصين في التربية الخاصة والعلاج الوظيفي والنفسي</li>
+        <li>توثيق التقدم الحركي للطفل وتحديث البرنامج الفردي (IEP) بصفة منتظمة</li>
+        <li>تشجيع الأطفال ذوي الإعاقات على التفاعل مع أقرانهم العاديين في الأنشطة المشتركة</li>
+        <li>تطوير مهارات الحياة اليومية من خلال الأنشطة الحركية الهادفة</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 3: VISUAL ==================== -->
+<div id="section-visual" class="section">
+  <h2 class="section-title">👁️ الأطفال ذوو الإعاقة البصرية</h2>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📖</span> التعريف التربوي للإعاقة البصرية</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div class="highlight-box blue">
+          <strong>الإعاقة البصرية عموماً:</strong> حالة تفقد فيها العين قدرتها الطبيعية على الرؤية بحيث لا تستطيع أداء وظائفها ولو باستخدام المساعدات البصرية كالنظارات
+        </div>
+        <div class="highlight-box orange">
+          <strong>الكفيف كلياً (Total Blindness):</strong> هو الشخص الذي لا يستطيع تمييز الضوء من الظلام بعد تصحيح البصر، ويحتاج إلى طريقة برايل لتلقّي التعليم
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:12px;">
+        <strong>التعريف الطبي لضعف البصر:</strong> حدّة بصر أقل من 3/200 متر بعد التصحيح. <strong>Total Blindness</strong> = عدم تمييز الضوء أصلاً.<br>
+        حدّة بصر أقل من 6/200 مع إمكانية رؤية الضوء = ضعف بصر شديد يُعدّ إعاقة
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🚶</span> النمو الحركي للأطفال المعاقين بصرياً</div>
+    <div class="card-body">
+      <p>يمر الأطفال المعاقون بصرياً بنفس مراحل النمو الحركي من الناحية التتابعية والتسلسلية. إلا أن وتيرة تطورهم قد تكون أبطأ، ويرجع ذلك إلى:</p>
+      <div class="grid-2" style="margin-top: 12px;">
+        <div class="highlight-box">
+          <strong>أسباب تأخر النمو الحركي:</strong>
+          <ul style="padding-right:16px; margin-top:6px;">
+            <li>حرية الطفل محدودة</li>
+            <li>محاولة التعرف على مكان الجسم في الفضاء</li>
+            <li>نقص تحفيز عامل البيئة</li>
+            <li>الخوف من الوقوع والسقوط</li>
+            <li>نقص خبرة بالناس والأجسام</li>
+            <li>قصور في الدوافع إلى الحركة</li>
+            <li>راحة المصاحبة والحركة معاً (الاتكالية)</li>
+          </ul>
+        </div>
+        <div class="highlight-box yellow">
+          <strong>التغلب على هذه المعوقات من خلال:</strong>
+          <ul style="padding-right:16px; margin-top:6px;">
+            <li>تحسين الحواس: الصوتية، الشمية، السمعية، واللمسية</li>
+            <li>مشاركة الطفل في ميدان مناسب للصوت والأنشطة</li>
+            <li>تحفيز حاجة الطفل ولمس أجزاء الجسم والأشياء</li>
+            <li>تعزيز الثقة بالنفس وتشجيع الاستقلالية</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🎮</span> أنواع الألعاب الخاصة بالأطفال المكفوفين</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div class="mini-card">
+          <div class="mini-card-icon">🔵</div>
+          <div class="mini-card-title">الألعاب الوظيفية Functional Games</div>
+          <div class="mini-card-body">ألعاب تدور حول دافع الطفل للتحرك في المكان واستكشاف الفضاء، مثل البعض في الهواء والاستلاء والضغط. تدعم النمو الحسي والحركي</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🎭</div>
+          <div class="mini-card-title">لعب الأدوار Role Games</div>
+          <div class="mini-card-body">يقوم على تمثيل وتمثيل أدوار محددة لأشخاص في الحياة الواقعية. يُنمّي الخيال والتواصل الاجتماعي والتعبير</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🧱</div>
+          <div class="mini-card-title">الألعاب التركيبية Constructional Games</div>
+          <div class="mini-card-body">يستخدم الطفل مواد وأدوات خاصة لبناء أشكال إبداعية وأنشطة تركيب ومهارة يدوية</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">💻</div>
+          <div class="mini-card-title">الألعاب الإلكترونية Electronically Games</div>
+          <div class="mini-card-body">ألعاب تعتمد على أجهزة إلكترونية خاصة بالمكفوفين تعمل بتعليمات صوتية وخطوط خاصة على لوحة المفاتيح</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span> البرامج الحركية للأطفال المكفوفين – المبادئ والأهداف</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <strong style="color: var(--green);">مبادئ البرامج الحركية:</strong>
+          <ul class="obj-list" style="margin-top: 8px;">
+            <li>إشراف معلمين متخصصين</li>
+            <li>ملاءمة البرنامج ومجموعة ذكاء مناسبة</li>
+            <li>التنوع في الأنشطة</li>
+            <li>مراعاة عادات رياضية مطورة حول قدراتها</li>
+            <li>تقليل مشاركة المكانة الموقف</li>
+          </ul>
+        </div>
+        <div>
+          <strong style="color: var(--green);">أهداف البرامج الحركية للمكفوفين:</strong>
+          <ul class="obj-list" style="margin-top: 8px;">
+            <li>تطوير عناصر اللياقة البدنية (قوة، مرونة، تحمّل، سرعة)</li>
+            <li>تنمية الشخصية والاجتماعية من خلال مشاركة الأنشطة الجماعية</li>
+            <li>اكتساب قدر ومهارة الطفل وتوجيهها نحو ممارسة الأنشطة في وقت الفراغ</li>
+            <li>تنمية النمو الحركي من خلال مسابقات لياقية وأنشطة وظيفية</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top: 12px;">
+        <strong>نماذج من الأنشطة الحركية للمعاقين بصرياً:</strong>
+        <div class="activities-grid" style="margin-top: 8px;">
+          <div class="activity-tag"><span class="a-icon">🚶</span>المشي بمحاذاة الجدار</div>
+          <div class="activity-tag"><span class="a-icon">⬆️</span>الحبل بطيء/متوسط</div>
+          <div class="activity-tag"><span class="a-icon">🔔</span>جري نحو صوت خاص</div>
+          <div class="activity-tag"><span class="a-icon">🤸</span>حركات توازن</div>
+          <div class="activity-tag"><span class="a-icon">🏊</span>سباحة</div>
+          <div class="activity-tag"><span class="a-icon">🎯</span>تمرينات التوجه</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 4: HEARING ==================== -->
+<div id="section-hearing" class="section">
+  <h2 class="section-title">👂 الأطفال ذوو الإعاقة السمعية</h2>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📖</span> التعريفات الأساسية</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div class="highlight-box blue">
+          <strong>الأصم تربوياً – تعريف Good:</strong><br>
+          الطفل الذي لديه إعاقة شديدة في السمع منذ الولادة أو في مرحلة مبكرة جداً تحول دون نموه الطبيعي، ويحتاج إلى تأهيل لأنماط خاصة في الصوت
+        </div>
+        <div class="highlight-box orange">
+          <strong>الأصم اجتماعياً:</strong><br>
+          هو الشخص الذي يعاني خساراً أو خللاً لحدة السمع يجعله غير قادر على مزاولة الحياة الاجتماعية بطريقة عادية، ولا يتمكن من التعامل مع الآخرين بالطريقة الطبيعية
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🔍</span> أسباب الصمم وأنواعه</div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div class="mini-card">
+          <div class="mini-card-icon">🧬</div>
+          <div class="mini-card-title">الوراثة</div>
+          <div class="mini-card-body">الأسباب الوراثية: تمثل حوالي 50% من مجموع حالات الصمم. أكثر شيوعاً في الوليد</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🤒</div>
+          <div class="mini-card-title">أسباب فطرية</div>
+          <div class="mini-card-body">إصابات الأم في أشهر الحمل بأمراض معينة (الحصبة الألمانية) أو تناول أدوية ضارة</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">⚡</div>
+          <div class="mini-card-title">أسباب مكتسبة</div>
+          <div class="mini-card-body">إصابات طبيعية أثناء الولادة أو نقص الأكسجين أو ضغط أو حوادث وصدمات</div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top: 12px;">
+        <strong>📊 إحصاء:</strong> الصمم الوراثي يمثل حوالي <strong>50%</strong> من مجموع حالات الصمم
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🤟</span> أساليب التواصل مع الصم والبكم</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div class="highlight-box blue">
+          <strong>التواصل الشفهي (قراءة الشفاه):</strong><br>
+          اعتماد الطفل على ملاحظة حركات الفم، والمشاهدة، والتعبيرات الوجهية. يشترط وجود الشخص المحدث في مجال رؤية الطفل. صعوبة التعبير عن الأفكار المعينة
+        </div>
+        <div class="highlight-box orange">
+          <strong>التواصل الكوني (لغة الإشارة):</strong><br>
+          يصاحب حديث الطفل الصغير بحركات جسمية وإيماءات ومرافق مكاني دائم. يشمل الإيماءات البيانية وإشارات الأفكار، وله مزايا اتصالية في مجال التعبير عن الأفكار الخاصة والمعقدة
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top: 12px;">
+        <strong>اللغة المحورية الحديثة (Total Communication):</strong> تجمع بين القول البصري (باهر العيون) والقول الصوتي (باهر النفس)، حيث العيون تلاحظ حركات الشفاه وإيماءات اليدين، بينما النفس يستقبل الصوت
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">👤</span> خصائص الطفل الأصم</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <strong style="color: var(--green);">الخصائص الاجتماعية والنفسية:</strong>
+          <ul style="padding-right:16px; margin-top:6px; font-size:0.85rem; line-height:1.8;">
+            <li>يميل إلى الانفصال عن مجتمعات أترابه العاديين</li>
+            <li>يواجه مشكلة خاصة في أوقات الفراغ والأنشطة الترفيهية</li>
+            <li>يميلون غالباً إلى إشباع الاحتياجات الأساسية دون التفكير بالعواقب</li>
+            <li>صعوبة التواصل مع الآخرين بالوسائل الرمزية المصطلح الاجتماعي</li>
+            <li>صعوبة في التحكم بالانفعالات والتعبير عن المشاعر</li>
+          </ul>
+        </div>
+        <div>
+          <strong style="color: var(--green);">الخصائص التعليمية والحركية:</strong>
+          <ul style="padding-right:16px; margin-top:6px; font-size:0.85rem; line-height:1.8;">
+            <li>يميلون إلى صعوبة في نهج الجماعي، وبطء الاستيعاب وعدم الدقة</li>
+            <li>ذكاء طفل الأصم لا يختلف عن ذكاء طفل عادي في الاختبارات غير اللفظية</li>
+            <li>يعاني الطفل الأصم من ضعف التوازن بسبب إعاقته السمعية المؤثرة على القنوات نصف الدائرية</li>
+            <li>صعوبة تعبير ضعف الانتباه وقوة الانتباه</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top: 12px;">
+        ⚠️ <strong>أثر الإعاقة السمعية على التوازن:</strong> لأن الأذن الداخلية تحتوي على قنوات نصف الدائرية التي تتحكم في التوازن، فإن أي إعاقة سمعية قد تؤثر سلباً على قدرة الطفل الأصم على التوازن والحركة
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🏋️</span> برامج التربية الحركية للمعاقين سمعياً</div>
+    <div class="card-body">
+      <ul class="obj-list">
+        <li>لا يوجد اختلاف جوهري بين أغراض برامج التربية الحركية للصم وضعاف السمع وأغراض البرامج العادية</li>
+        <li>يجب تنويع الأنشطة بين الأنشطة اللاهوائية (التحمّل) قبل الأنشطة الهوائية</li>
+        <li>مراعاة خصائص الأطفال أثناء اختيار البرنامج بحيث يكون مناسباً لطبيعة الإعاقة</li>
+        <li>تنمية الجهاز الحيوي العصبي بالتركيز على الميكانيكا الحركية الصحيحة</li>
+        <li>يجب الحرص على برنامج حركي في اقل من مرتين من اللياقة ودرجة الحرص على توازن الطفل</li>
+        <li>الاهتمام بالنشاط المناسب لكل طفل يعاني من إعاقة مختلفة في الجذع والأطراف السفلية</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🏆</span> رياضات المعاقين السمعية التنافسية</div>
+    <div class="card-body">
+      <div class="activities-grid">
+        <div class="activity-tag"><span class="a-icon">⚽</span>كرة القدم</div>
+        <div class="activity-tag"><span class="a-icon">🏊</span>السباحة</div>
+        <div class="activity-tag"><span class="a-icon">🏃</span>ألعاب القوى</div>
+        <div class="activity-tag"><span class="a-icon">🏐</span>الكرة الطائرة</div>
+        <div class="activity-tag"><span class="a-icon">🏸</span>الريشة الطائرة</div>
+        <div class="activity-tag"><span class="a-icon">🎾</span>التنس الطاولة</div>
+        <div class="activity-tag"><span class="a-icon">🥊</span>الكاراتيه</div>
+        <div class="activity-tag"><span class="a-icon">🤸</span>الجمباز</div>
+        <div class="activity-tag"><span class="a-icon">🚵</span>الدراجة</div>
+        <div class="activity-tag"><span class="a-icon">🏇</span>بولينج</div>
+        <div class="activity-tag"><span class="a-icon">🎿</span>التزلج</div>
+        <div class="activity-tag"><span class="a-icon">🏋️</span>رفع الأثقال</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 5: AUTISM ==================== -->
+<div id="section-autism" class="section">
+  <h2 class="section-title">🧩 أهمية التربية الحركية لأطفال طيف التوحد</h2>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🌟</span> تعزيز التواصل والتفاعل الاجتماعي</div>
+    <div class="card-body">
+      <p>يمكن أن تتيح الأنشطة الحركية المنظمة لأطفال ذوي طيف التوحد التواصل مع الآخرين بطريقة ممتعة وذات معنى، مما يُحسّن مهاراتهم الاجتماعية والتواصلية.</p>
+      <div class="highlight-box blue">
+        📌 يمكن أن تُساعد الألعاب الجماعية والرياضات المنظمة في تحسين مهارات التواصل والتفاعل الاجتماعي لدى الأطفال
+      </div>
+      <p style="margin-top:8px;">كما يمكن أن تُساعد التمارين الحركية التي تتضمن التواصل اللفظي وغير اللفظي (مثل الإيماءات وتعبيرات الوجه) في تحسين قدرة الطفل على التواصل والتعبير عن نفسه.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">💪</span> الفوائد الشاملة للتربية الحركية لأطفال التوحد</div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div class="mini-card">
+          <div class="mini-card-icon">🏆</div>
+          <div class="mini-card-title">تنمية الثقة بالنفس</div>
+          <div class="mini-card-body">عندما يتقن الأطفال ذوو طيف التوحد مهارات حركية جديدة، فإن ذلك يعزّز ثقتهم بأنفسهم ويجعلهم يجرّبون المزيد من الأنشطة</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">❤️</div>
+          <div class="mini-card-title">تحسين الصحة العامة</div>
+          <div class="mini-card-body">تُساعد التربية الحركية على تحسين صحة القلب والأوعية الدموية وتقوية العضلات والعظام والحفاظ على وزن صحي مما يقلل من خطر الإصابة بالأمراض المزمنة</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🔧</div>
+          <div class="mini-card-title">تطوير الاستقلالية</div>
+          <div class="mini-card-body">يُصبح الأطفال أكثر قدرة على القيام بالمهام اليومية بشكل أكثر استقلالية مما يعزز اعتمادهم على أنفسهم</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🎯</div>
+          <div class="mini-card-title">تحسين الانتباه وتقليل التشتت</div>
+          <div class="mini-card-body">تُساعد الأنشطة الحركية المنظمة على تركيز انتباه الطفل وتوجيهه نحو مهمة محددة. تعمل التمارين الحركية على تحسين الوعي الجسدي مما يُعين على التحكم في الحركات وتقليل التكرار</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🔄</div>
+          <div class="mini-card-title">تقليل السلوكيات النمطية</div>
+          <div class="mini-card-body">يمكن أن تُساعد الأنشطة الرياضية المنظمة في تقليل السلوكيات النمطية والمتكررة التي قد تشتت انتباه الطفل</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🧠</div>
+          <div class="mini-card-title">نمو معرفي</div>
+          <div class="mini-card-body">ارتباط الحركة بالنمو المعرفي كطفل وجيه وارتباط في طبيعة وخصائص الحركة بالتعلم والإدراك</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span> استراتيجيات التربية الحركية للأطفال التوحديين</div>
+    <div class="card-body">
+      <ul class="obj-list">
+        <li><strong>تحديد الأهداف الفردية:</strong> يجب أن تعتمد استراتيجيات التربية الحركية على احتياجات وقدرات كل طفل على حدة</li>
+        <li><strong>استخدام مجموعة متنوعة من الأنشطة:</strong> يجب أن تشمل الأنشطة الحركية مجموعة متنوعة من التمارين والألعاب التي تستهدف مختلف المهارات الحركية</li>
+        <li><strong>جعل الأنشطة ممتعة:</strong> يجب أن تكون الأنشطة ممتعة ومناسبة لعمر الطفل واهتماماته</li>
+        <li><strong>توفير بيئة آمنة وداعمة:</strong> يجب العمل على توفير بيئة آمنة وداعمة للأطفال للمشاركة في الأنشطة الحركية</li>
+        <li><strong>التعاون مع المتخصصين:</strong> يمكن أن يُعين التعاون مع المتخصصين في التربية الحركية والعلاج الوظيفي على تصوير وتنفيذ برامج تربية حركية فعّالة</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">⚽</span> أمثلة على الأنشطة الحركية لأطفال التوحد</div>
+    <div class="card-body">
+      <div class="activities-grid">
+        <div class="activity-tag"><span class="a-icon">🚶</span>المشي والجري</div>
+        <div class="activity-tag"><span class="a-icon">🦘</span>القفز والتسلق</div>
+        <div class="activity-tag"><span class="a-icon">⚽</span>رمي الكرة والتقاطها</div>
+        <div class="activity-tag"><span class="a-icon">🚲</span>ركوب الدراجة</div>
+        <div class="activity-tag"><span class="a-icon">🤸</span>اليوغا</div>
+        <div class="activity-tag"><span class="a-icon">🎵</span>الرقص على الموسيقى</div>
+        <div class="activity-tag"><span class="a-icon">⚽</span>الألعاب الجماعية</div>
+        <div class="activity-tag"><span class="a-icon">🏊</span>اللعب في الرمل/الماء</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 6: TERMS ==================== -->
+<div id="section-terms" class="section">
+  <h2 class="section-title">📖 المصطلحات المفتاحية</h2>
+  <div class="term-grid">
+    <div class="term-card">
+      <div class="term-ar">التربية البدنية المعدّلة</div>
+      <div class="term-en">Adapted Physical Education</div>
+      <div class="term-def">برنامج متنوع من الأنشطة يراعي احتياجات ذوي الاحتياجات الخاصة</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">البرنامج الفردي التعليمي</div>
+      <div class="term-en">Individual Education Program (IEP)</div>
+      <div class="term-def">برنامج مكتوب معاً من فريق متخصص يُحدّد أهداف الطفل ذي الاحتياجات الخاصة</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">الأولمبياد الخاصة</div>
+      <div class="term-en">Special Olympics</div>
+      <div class="term-def">برنامج رياضي عالمي للمتخلفين عقلياً أُنشئ عام 1967م</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">العمى الكلي</div>
+      <div class="term-en">Total Blindness</div>
+      <div class="term-def">عدم قدرة الشخص على تمييز الضوء من الظلام بعد تصحيح البصر</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">طفل أصم</div>
+      <div class="term-en">Deaf Child</div>
+      <div class="term-def">طفل يعاني خساراً شديداً في السمع منذ الولادة أو في مرحلة مبكرة يحول دون نموه الطبيعي</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">النمو الحركي</div>
+      <div class="term-en">Motor Development</div>
+      <div class="term-def">تطوّر الأداء الحركي للطفل عبر مراحل نمو متتابعة ومترابطة</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">أطفال ذوو الإعاقة السمعية</div>
+      <div class="term-en">Children with Hearing Disability</div>
+      <div class="term-def">أطفال يعانون من ضعف سمعي يؤثر على تواصلهم وتعلمهم</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">اللغة الإشارية</div>
+      <div class="term-en">Sign Language</div>
+      <div class="term-def">نظام تواصل بصري يستخدم حركات اليدين والجسم لتمثيل الكلمات والأفكار</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">طيف التوحد</div>
+      <div class="term-en">Autism Spectrum Disorder</div>
+      <div class="term-def">حالة عصبية تؤثر على التواصل والتفاعل الاجتماعي والسلوكيات النمطية</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">اللياقة البدنية الصحية</div>
+      <div class="term-en">Health-Related Physical Fitness</div>
+      <div class="term-def">عناصر اللياقة المرتبطة بالصحة: القلب، المرونة، القوة، التحمّل، وتركيب الجسم</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">اللياقة المهارية</div>
+      <div class="term-en">Skill-Related Physical Fitness</div>
+      <div class="term-def">عناصر اللياقة المرتبطة بالأداء: التوازن، التوافق، السرعة، الرشاقة، القدرة</div>
+    </div>
+    <div class="term-card">
+      <div class="term-ar">التواصل الكلي</div>
+      <div class="term-en">Total Communication</div>
+      <div class="term-def">أسلوب تواصل شامل يجمع بين القراءة الشفهية واللغة الإشارية ونبرة الصوت</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 7: QUIZ ==================== -->
+<div id="section-quiz" class="section">
+  <h2 class="section-title">⚽ المباراة النهائية – 60 سؤال تحدي</h2>
+
+  <div class="quiz-score-board">
+    <div style="font-size:1rem; font-weight:700; margin-bottom:10px;">لوحة النتائج 🏆</div>
+    <div class="score-display">
+      <div class="score-item">
+        <span id="score-correct" style="font-size:2rem;">0</span>
+        <span class="score-label">✅ صحيح</span>
+      </div>
+      <div class="score-item">
+        <span id="score-wrong" style="font-size:2rem;">0</span>
+        <span class="score-label">❌ خطأ</span>
+      </div>
+      <div class="score-item">
+        <span id="score-total" style="font-size:2rem;">0</span>
+        <span class="score-label">📊 المجموع</span>
+      </div>
+    </div>
+    <div class="result-bar" style="margin-top:10px;">
+      <div class="result-fill" id="score-bar" style="width:0%"></div>
+    </div>
+    <div class="medal-row">
+      <div class="medal">🥇 البطل: 50-60</div>
+      <div class="medal">🥈 المحترف: 35-49</div>
+      <div class="medal">🥉 الناشئ: 20-34</div>
+    </div>
+  </div>
+
+  <!-- Quiz Type Selector -->
+  <div class="quiz-tabs">
+    <button class="quiz-tab-btn active" onclick="showQuizType('tf')">✅ صح/خطأ (25)</button>
+    <button class="quiz-tab-btn" onclick="showQuizType('mcq')">🔵 الاختياري (25)</button>
+    <button class="quiz-tab-btn" onclick="showQuizType('essay')">🏆 البطل المقالي (10)</button>
+  </div>
+
+  <!-- T/F Questions -->
+  <div id="quiz-tf" class="quiz-container">
+    <div id="tf-questions-container"></div>
+  </div>
+
+  <!-- MCQ Questions -->
+  <div id="quiz-mcq" class="quiz-container" style="display:none;">
+    <p class="ball-reveal-hint">🏀 اضغط على الخيار لكشف الإجابة!</p>
+    <div id="mcq-questions-container"></div>
+  </div>
+
+  <!-- Essay Questions (Flip Cards) -->
+  <div id="quiz-essay" class="quiz-container" style="display:none;">
+    <p style="text-align:center; color:white; margin-bottom:16px; font-size:0.9rem;">🃏 اقلب البطاقة لتظهر الإجابة النموذجية</p>
+    <div class="flip-cards-grid" id="essay-cards-container"></div>
+  </div>
+
+  <div style="text-align:center;">
+    <button class="reset-btn" onclick="resetAll()">🔄 إعادة المباراة</button>
+  </div>
+</div>
+
+<!-- Trophy Popup -->
+<div class="trophy-popup" id="trophy-popup">
+  <div class="trophy-icon">🏆</div>
+  <div class="trophy-text" id="trophy-text">إجابة صحيحة!</div>
+</div>
+
+<div class="arena-footer">🏟️ الملعب التعليمي للتربية الرياضية · ذوو الاحتياجات الخاصة · جميع الحقوق محفوظة</div>
+
+<script>
+// ===== NAVIGATION =====
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== QUIZ NAV =====
+function showQuizType(type) {
+  ['tf','mcq','essay'].forEach(t => {
+    document.getElementById('quiz-' + t).style.display = t === type ? 'block' : 'none';
+  });
+  document.querySelectorAll('.quiz-tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', ['tf','mcq','essay'][i] === type);
+  });
+}
+
+// ===== SCORE =====
+let correct = 0, wrong = 0, total = 0;
+function updateScore(isCorrect) {
+  total++;
+  if (isCorrect) { correct++; animateScore('score-correct'); }
+  else { wrong++; animateScore('score-wrong'); }
+  document.getElementById('score-correct').textContent = correct;
+  document.getElementById('score-wrong').textContent = wrong;
+  document.getElementById('score-total').textContent = total;
+  let pct = total > 0 ? (correct / total * 100) : 0;
+  document.getElementById('score-bar').style.width = pct + '%';
+  if (isCorrect && total % 5 === 0) showTrophy();
+}
+
+function animateScore(id) {
+  const el = document.getElementById(id);
+  el.classList.remove('score-anim');
+  void el.offsetWidth;
+  el.classList.add('score-anim');
+}
+
+function showTrophy() {
+  const msgs = ['ممتاز! 🏆', 'رائع! 🥇', 'إجابة مثالية! ⭐', 'بطل! 🏅', 'أحسنت! 🎯'];
+  const el = document.getElementById('trophy-popup');
+  document.getElementById('trophy-text').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+function resetAll() {
+  correct = 0; wrong = 0; total = 0;
+  document.getElementById('score-correct').textContent = 0;
+  document.getElementById('score-wrong').textContent = 0;
+  document.getElementById('score-total').textContent = 0;
+  document.getElementById('score-bar').style.width = '0%';
+  renderTF(); renderMCQ(); renderEssay();
+}
+
+// ===== DATA =====
+const tfData = [
+  { q: "يُعدّ الطبيب Tissot أول من اقترح الألعاب المعدّلة للأفراد ذوي الاحتياجات الخاصة.", a: true, ex: "صح! وكان ذلك في عام 1871م" },
+  { q: "أُنشئ أول قسم للتربية البدنية التصحيحية في جامعة أكسفورد البريطانية عام 1781م.", a: false, ex: "خطأ! كان في جامعة هارفارد الأمريكية" },
+  { q: "أكد قانون 94-142 عام 1975م حق ذوي الاحتياجات الخاصة في التعليم المجاني من سن الثالثة حتى الثامنة عشرة.", a: true, ex: "صح! هذا ما نصّ عليه القانون تحديداً" },
+  { q: "الأولمبياد الخاصة Special Olympics أُنشئ عام 1967م بمبادرة من عائلة كندي الأمريكية.", a: true, ex: "صح! دعا الرئيس كاندي وعائلته لهذه البرامج" },
+  { q: "اللياقة البدنية المرتبطة بالمهارة لا تشمل عنصر التوازن.", a: false, ex: "خطأ! التوازن من أهم عناصر اللياقة المرتبطة بالمهارة" },
+  { q: "العمى الكلي Total Blindness يعني عدم قدرة الشخص على تمييز الضوء من الظلام بعد تصحيح البصر.", a: true, ex: "صح! هذا هو التعريف الطبي الصحيح" },
+  { q: "الأطفال المكفوفون لا يمرون بنفس مراحل النمو الحركي التي يمر بها الأطفال العاديون.", a: false, ex: "خطأ! يمرون بنفس المراحل لكن بوتيرة أبطأ أحياناً" },
+  { q: "الإعاقة السمعية لا تؤثر على التوازن لدى الأطفال الصم.", a: false, ex: "خطأ! تؤثر الإعاقة السمعية على القنوات نصف الدائرية المسؤولة عن التوازن" },
+  { q: "يمثّل الصمم الوراثي حوالي 50% من مجموع حالات الصمم.", a: true, ex: "صح! هذا ما تشير إليه الإحصاءات" },
+  { q: "لغة الإشارة هي التواصل الشفهي المعتمد على قراءة الشفاه.", a: false, ex: "خطأ! لغة الإشارة هي التواصل الكوني القائم على حركات اليدين والجسم" },
+  { q: "التربية الحركية لأطفال التوحد تُعزّز الثقة بالنفس عند إتقانهم مهارات حركية جديدة.", a: true, ex: "صح! إتقان المهارات يعزز الثقة ويشجع على تجربة المزيد" },
+  { q: "يجب أن يكون البرنامج الفردي IEP متشابهاً لجميع الأطفال ذوي الاحتياجات الخاصة.", a: false, ex: "خطأ! يجب أن يكون مكتوباً خصيصاً لكل طفل بشكل فردي" },
+  { q: "Ling Henrik Per استخدم برامجه في معهد التمرينات المركزي في ستوكهولم.", a: true, ex: "صح! وقد استُخدمت برامجه لاحقاً في المعاهد العلمية الأمريكية" },
+  { q: "الألعاب الوظيفية للمكفوفين تدور أساساً حول دافع الطفل للتحرك في المكان واستكشاف البيئة.", a: true, ex: "صح! هذه طبيعة الألعاب الوظيفية Functional Games" },
+  { q: "ذكاء طفل الأصم أقل من ذكاء الطفل العادي في جميع الاختبارات.", a: false, ex: "خطأ! ذكاء الأصم لا يختلف عن الطفل العادي خاصة في الاختبارات غير اللفظية" },
+  { q: "التربية الحركية لأطفال التوحد تُساعد في تقليل السلوكيات النمطية والمتكررة.", a: true, ex: "صح! الأنشطة المنظمة تُحوّل طاقة الطفل بشكل إيجابي" },
+  { q: "البرنامج الفردي IEP يُعدّه المعلم وحده دون مشاركة الوالدين.", a: false, ex: "خطأ! يشمل الفريق: معلم، أخصائيين، والدين، وأخصائي علم النفس" },
+  { q: "اللياقة البدنية المرتبطة بالصحة تشمل صحة القلب والأوعية الدموية.", a: true, ex: "صح! هذا من أهم مكونات اللياقة الصحية" },
+  { q: "لا يمكن للطفل الكفيف الاستفادة من الألعاب الإلكترونية.", a: false, ex: "خطأ! هناك ألعاب إلكترونية خاصة بالمكفوفين تعتمد على التعليمات الصوتية" },
+  { q: "التواصل الكلي (Total Communication) يجمع بين قراءة الشفاه ولغة الإشارة والنطق.", a: true, ex: "صح! هو أسلوب شامل يستخدم كل وسائل التواصل معاً" },
+  { q: "الحرب العالمية الثانية لم تؤثر في تطوير التربية البدنية للمعاقين.", a: false, ex: "خطأ! كان لها أثر كبير إذ أفرز تأهيل المصابين ضرورة برامج حركية متخصصة" },
+  { q: "أحد أهداف البرامج الحركية للمكفوفين هو تطوير اللياقة الوظيفية والترفيهية.", a: true, ex: "صح! تنمية الوقت الحر وممارسة الأنشطة الترفيهية هدف رئيسي" },
+  { q: "يُعاني الأطفال الصم من صعوبات في التوازن بسبب تأثير الإعاقة على القنوات نصف الدائرية.", a: true, ex: "صح! القنوات نصف الدائرية في الأذن الداخلية تتحكم في التوازن" },
+  { q: "التربية البدنية المعدّلة تُركّز على إعاقة الفرد لا على قدراته.", a: false, ex: "خطأ! تُركّز على القدرات والاحتياجات وليس على الإعاقة" },
+  { q: "لعب الأدوار للمكفوفين يتضمن تمثيل وتقليد أشخاص في الحياة الواقعية.", a: true, ex: "صح! يُنمّي الخيال والتعبير والتواصل الاجتماعي" }
+];
+
+const mcqData = [
+  { q: "من أول من اقترح الألعاب المعدّلة لذوي الاحتياجات الخاصة؟", opts: ["Ling","Tissot","Kessler","Good"], a: 1 },
+  { q: "في أي عام أُنشئ أول قسم للتربية البدنية التصحيحية في هارفارد؟", opts: ["1781","1871","1915","1967"], a: 0 },
+  { q: "ما الذي أكّد قانون 94-142 لعام 1975م؟", opts: ["إنشاء الأولمبياد الخاصة","حق التعليم المجاني من 3-18 سنة","فتح مراكز التأهيل","إلغاء التربية التصحيحية"], a: 1 },
+  { q: "ما معنى مصطلح IEP في التربية الخاصة؟", opts: ["برنامج تمريني للمكفوفين","البرنامج الفردي التعليمي","منظمة التربية الدولية","اختبار القدرات البدنية"], a: 1 },
+  { q: "ما نسبة الصمم الوراثي من إجمالي حالات الصمم؟", opts: ["25%","50%","75%","100%"], a: 1 },
+  { q: "ما الأداة الرئيسية في التواصل مع الكفيف؟", opts: ["لغة الإشارة","القراءة الشفهية","طريقة برايل","التواصل الإلكتروني"], a: 2 },
+  { q: "أيّ من التالي من عناصر اللياقة المرتبطة بالمهارة؟", opts: ["صحة القلب","التوازن والتوافق","تركيب الجسم","تحمّل القلب والرئتين"], a: 1 },
+  { q: "ما هدف الألعاب الوظيفية Functional Games للمكفوفين؟", opts: ["تنمية التعليم الأكاديمي","تطوير التحرك في الفضاء واستكشاف البيئة","تحسين المهارات الاجتماعية فقط","تطوير القدرات الرياضية التنافسية"], a: 1 },
+  { q: "من أي عضو تنبع مشكلة التوازن لدى الأصم؟", opts: ["الدماغ","العصب البصري","الأذن الداخلية (القنوات نصف الدائرية)","العظام"], a: 2 },
+  { q: "ما الفائدة الأساسية لبرامج التربية الحركية لأطفال التوحد؟", opts: ["تطوير القدرات الرياضية التنافسية","تعزيز التواصل والتفاعل الاجتماعي","تحسين التحصيل الأكاديمي فقط","تقليل وزن الطفل"], a: 1 },
+  { q: "ما نوع التواصل الذي يجمع الشفهي والإشاري معاً؟", opts: ["التواصل الوظيفي","التواصل الكلي (Total Communication)","التواصل الإلكتروني","التواصل الفطري"], a: 1 },
+  { q: "من مبادئ البرامج الحركية للمكفوفين؟", opts: ["الاعتماد على معلم واحد","التنوع في الأنشطة","تجنّب الألعاب الإلكترونية","تجنّب الأنشطة الجماعية"], a: 1 },
+  { q: "ما خصائص الطفل الأصم اجتماعياً؟", opts: ["يندمج بسهولة مع أقرانه","يميل إلى الانفصال عن المجتمع","نشاط اجتماعي مرتفع","قدرة تواصل ممتازة"], a: 1 },
+  { q: "أيّ الألعاب يستخدم فيها الطفل الكفيف أجهزة إلكترونية خاصة؟", opts: ["الألعاب الوظيفية","لعب الأدوار","الألعاب الإلكترونية","الألعاب التركيبية"], a: 2 },
+  { q: "ما الهدف الأول من برامج التربية البدنية التصحيحية عقب الحرب العالمية الثانية؟", opts: ["تأهيل الأطفال للمدارس","مساعدة أفراد الجيش المصابين على العودة للخدمة","إنشاء نوادٍ رياضية","تحسين بطولات الأولمبياد"], a: 1 },
+  { q: "ما الذي تهدف إليه برامج اللياقة الحركية لذوي الاحتياجات الخاصة أساساً؟", opts: ["الفوز في المنافسات","تنمية القدرات والمشاركة في الحياة اليومية","التميز عن الأقران","الوصول للمستوى الدولي"], a: 1 },
+  { q: "ما مدى تأثير الإعاقة السمعية على ذكاء الطفل الأصم؟", opts: ["تقلّل الذكاء بشكل كبير","لا تختلف في الاختبارات غير اللفظية عن الطفل العادي","تُحسّن القدرات الذهنية","تؤثر فقط في مرحلة المراهقة"], a: 1 },
+  { q: "لماذا قد يتأخر النمو الحركي لدى الأطفال المكفوفين؟", opts: ["قصور في الغذاء","محدودية الحرية والخوف من الوقوع ونقص تحفيز البيئة","بسبب ضعف الذاكرة","إعاقات جسدية إضافية"], a: 1 },
+  { q: "ما مواصفات البيئة التعليمية المناسبة لأطفال التوحد؟", opts: ["كثيرة التحفيزات المتزامنة","آمنة وداعمة وهادئة","مزدحمة ومتنوعة","مشابهة تماماً للبيئة العادية"], a: 1 },
+  { q: "ما معنى Total Blindness طبياً؟", opts: ["ضعف البصر الشديد مع إمكانية رؤية الضوء","عدم القدرة على رؤية الألوان","عدم تمييز الضوء من الظلام بعد التصحيح","إعاقة ليلية فقط"], a: 2 },
+  { q: "ما دور معلمة الروضة في ألعاب الفناء لذوي الاحتياجات الخاصة؟", opts: ["تقييم الأطفال فقط","تصميم برامج حركية فردية وتوفير بيئة آمنة وداعمة","تعليم المواد الدراسية","إعداد البطولات الرياضية"], a: 1 },
+  { q: "ما الأنشطة المقترحة كمثال على التربية الحركية لأطفال التوحد؟", opts: ["الرياضيات والقراءة","المشي والجري والقفز ورمي الكرة والرقص","الرسم وقراءة الكتب","الأنشطة المنزلية فقط"], a: 1 },
+  { q: "ما الفرق بين اللياقة الصحية والمهارية؟", opts: ["لا يوجد فرق","الصحية تتعلق بالقلب والعضلات، والمهارية بالتوازن والتوافق","الصحية للرياضيين، المهارية للمعاقين","المهارية أهم من الصحية"], a: 1 },
+  { q: "ما إجراء يجب اتباعه عند اكتشاف سلوكيات نمطية لدى طفل التوحد؟", opts: ["عدم التدخل تماماً","توجيه الطاقة نحو أنشطة حركية منظمة وهادفة","العقاب الفوري","إيقاف جميع الأنشطة"], a: 1 },
+  { q: "ما المعهد الذي استُخدمت فيه برامج Ling لأول مرة؟", opts: ["معهد القاهرة","معهد التمرينات المركزي في ستوكهولم","معهد أوكسفورد","جامعة كولومبيا"], a: 1 }
+];
+
+const essayData = [
+  { q: "ناقش التطور التاريخي لألعاب ذوي الاحتياجات الخاصة من Tissot حتى عصرنا الحالي.", a: "• Tissot 1871: أول اقتراح للألعاب المعدّلة\n• Ling: برامج علاجية في ستوكهولم\n• 1781: أول قسم في هارفارد لتصحيح القوام\n• الحربان العالميتان: تأهيل المصابين أفرز تربية بدنية متخصصة\n• 1967: الأولمبياد الخاصة لكاندي\n• قانون 1973 + 94-142 (1975): ضمان التعليم المجاني وIEP" },
+  { q: "اشرح أهداف التربية البدنية الخاصة المرتبطة بالصحة وبالمهارة الحركية.", a: "صحية: ❤️ القلب والأوعية + 💪 قوة عضلات + 🦵 مرونة + ⚖️ تركيب الجسم\nمهارية: ⚖️ توازن + ⚡ سرعة + 🎯 توافق + 💨 رشاقة + ⏱️ رد الفعل + 💥 قوة انفجارية" },
+  { q: "ما أسباب تأخر النمو الحركي للأطفال المعاقين بصرياً؟ وكيف يمكن التغلب عليها؟", a: "الأسباب: محدودية الحرية + الخوف من السقوط + نقص تحفيز البيئة + قصور الدوافع للحركة\nالحلول: تحسين الحواس الأخرى (لمس، شم، سمع) + مشاركة في ميدان مناسب + تعزيز الثقة + استخدام أصوات توجيهية" },
+  { q: "وضّح خصائص الطفل الأصم الاجتماعية والتعليمية والحركية.", a: "اجتماعياً: يميل للعزلة، مشكلة أوقات الفراغ\nتعليمياً: ذكاؤه طبيعي في الاختبارات غير اللفظية\nحركياً: ضعف التوازن بسبب تأثر القنوات نصف الدائرية + صعوبة الانتباه + قصور في رد الفعل" },
+  { q: "اشرح أنواع التواصل مع الأطفال الصم والبكم مع ذكر مزايا كل نوع.", a: "1. شفهي (قراءة الشفاه): يُعزّز الاندماج، يحتاج مجال رؤية كافٍ\n2. لغة الإشارة: تعبير أوسع عن الأفكار المعقدة\n3. التواصل الكلي: يجمع الاثنين → أكثر فعالية وشمولاً، يتيح تطور قدرات أوسع" },
+  { q: "ناقش أهمية التربية الحركية لأطفال طيف التوحد بالتفصيل.", a: "✦ تعزيز التواصل الاجتماعي عبر الأنشطة الجماعية\n✦ بناء الثقة بالنفس عند إتقان المهارات\n✦ تحسين الصحة العامة (قلب، عضلات، وزن)\n✦ تطوير الاستقلالية في المهام اليومية\n✦ تحسين الانتباه وتقليل التشتت\n✦ تقليل السلوكيات النمطية المتكررة" },
+  { q: "ما استراتيجيات التربية الحركية الفعّالة للأطفال التوحديين؟", a: "1. تحديد أهداف فردية لكل طفل\n2. تنويع الأنشطة (حركية، بصرية، جماعية)\n3. جعل الأنشطة ممتعة ومناسبة للعمر\n4. توفير بيئة آمنة وهادئة وداعمة\n5. التعاون مع معالجين مختصين\n6. استخدام التعزيز الإيجابي المستمر" },
+  { q: "اشرح مبادئ وأهداف البرامج الحركية للأطفال المكفوفين.", a: "المبادئ: إشراف متخصصين + تنويع الأنشطة + ملاءمة القدرات\nالأهداف: تطوير عناصر اللياقة (قوة، مرونة، تحمّل، سرعة)\n+ تنمية الشخصية الاجتماعية\n+ تنمية وقت الفراغ بشكل إيجابي\n+ تطوير النمو الحركي والانتقالي" },
+  { q: "ما دور الأسرة والمعلم في رعاية الطفل المعاق سمعياً؟", a: "الأسرة: قبول الإعاقة + توفير بيئة آمنة + توفير فرص للتعبير والنشاط + مراعاة حاجاته النفسية والاجتماعية\nالمعلم: معرفة طبيعة الإعاقة + برنامج حركي ملائم + التعاون مع المتخصصين + استخدام التواصل المناسب + تصحيح الأخطاء بصبر" },
+  { q: "ما أنواع الألعاب الخاصة بالأطفال المكفوفين مع شرح موجز لكل نوع؟", a: "1. الوظيفية: استكشاف المكان والحركة الحرة\n2. لعب الأدوار: تمثيل أدوار واقعية يُنمّي الخيال\n3. التركيبية: بناء وتركيب أشكال بالأدوات\n4. الإلكترونية: أجهزة خاصة بتعليمات صوتية وتعرّف لمسي" }
+];
+
+// ===== RENDER T/F =====
+function renderTF() {
+  const container = document.getElementById('tf-questions-container');
+  container.innerHTML = '';
+  tfData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'tf-question';
+    div.id = 'tf-' + i;
+    div.innerHTML = `
+      <div class="q-text"><span class="tf-q-num">${i+1}</span>${item.q}</div>
+      <div class="tf-btns">
+        <button class="tf-btn true-btn" onclick="answerTF(${i}, true)">✅ صح</button>
+        <button class="tf-btn false-btn" onclick="answerTF(${i}, false)">❌ خطأ</button>
+      </div>
+      <div class="answer-reveal" id="tf-ans-${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answerTF(idx, answer) {
+  const item = tfData[idx];
+  const container = document.getElementById('tf-' + idx);
+  const btns = container.querySelectorAll('.tf-btn');
+  const reveal = document.getElementById('tf-ans-' + idx);
+  if (btns[0].disabled) return;
+  btns.forEach(b => b.disabled = true);
+  const isCorrect = answer === item.a;
+  const trueBtn = btns[0], falseBtn = btns[1];
+  if (item.a === true) trueBtn.classList.add('correct');
+  else falseBtn.classList.add('correct');
+  if (!isCorrect) {
+    (answer ? trueBtn : falseBtn).classList.add('wrong');
+  }
+  reveal.className = 'answer-reveal show ' + (isCorrect ? 'correct-ans' : 'wrong-ans');
+  reveal.innerHTML = (isCorrect ? '🏅 ' : '💡 الإجابة الصحيحة: ') + item.ex;
+  updateScore(isCorrect);
+}
+
+// ===== RENDER MCQ =====
+function renderMCQ() {
+  const container = document.getElementById('mcq-questions-container');
+  container.innerHTML = '';
+  mcqData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'mcq-question';
+    div.id = 'mcq-' + i;
+    const optsHtml = item.opts.map((opt, j) =>
+      `<button class="mcq-option" onclick="answerMCQ(${i}, ${j})">${opt}</button>`
+    ).join('');
+    div.innerHTML = `
+      <div class="q-text"><span class="tf-q-num">${i+1}</span>${item.q}</div>
+      <div class="mcq-options">${optsHtml}</div>
+      <div class="answer-reveal" id="mcq-ans-${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answerMCQ(idx, chosen) {
+  const item = mcqData[idx];
+  const container = document.getElementById('mcq-' + idx);
+  const btns = container.querySelectorAll('.mcq-option');
+  const reveal = document.getElementById('mcq-ans-' + idx);
+  if (btns[0].disabled) return;
+  btns.forEach(b => b.disabled = true);
+  const isCorrect = chosen === item.a;
+  btns[item.a].classList.add('correct-opt');
+  if (!isCorrect) btns[chosen].classList.add('wrong-opt');
+  reveal.className = 'answer-reveal show ' + (isCorrect ? 'correct-ans' : 'wrong-ans');
+  reveal.innerHTML = isCorrect ? '🏅 أحسنت! الإجابة صحيحة' : `💡 الإجابة الصحيحة: ${item.opts[item.a]}`;
+  updateScore(isCorrect);
+}
+
+// ===== RENDER ESSAY =====
+function renderEssay() {
+  const container = document.getElementById('essay-cards-container');
+  container.innerHTML = '';
+  const icons = ['🤔','📚','💡','🎯','⭐','🔍','🏆','📖','💪','🧩'];
+  essayData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'flip-card';
+    div.onclick = () => div.classList.toggle('flipped');
+    div.innerHTML = `
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <div class="flip-front-icon">${icons[i]}</div>
+          <div class="flip-front-q">س${i+1}: ${item.q}</div>
+          <div class="flip-front-hint">👆 اضغط لرؤية الإجابة النموذجية</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-title">🏅 الإجابة النموذجية</div>
+          <div style="white-space: pre-line; font-size:0.8rem;">${item.a}</div>
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ===== INIT =====
+renderTF(); renderMCQ(); renderEssay();
+</script>
+</body>
+</html>
